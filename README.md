@@ -1,0 +1,4 @@
+bash-emulator
+=============
+
+Bash emulator

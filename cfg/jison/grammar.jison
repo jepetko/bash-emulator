@@ -5,7 +5,7 @@
 \s+                                                                         /* skip whitespace */
 \|                                                                          return '|';
 /*[a-zA-Z\._]+                                                              return 'COMMAND';*/
-(cd|cat|echo|grep|su)                                                       return 'COMMAND';
+(ls|cd|cat|echo|grep|su)                                                    return 'COMMAND';
 ^\-(\-)?[a-z\-0-9]+                                                         return 'OPTION';
 ([a-zA-Z0-9\._\-\\\/\[\]\+\(\)\*]+|(\")?[a-zA-Z0-9\._\-\s]+(\")?)           return 'ARG';
 \n                                                                          return 'BREAK';

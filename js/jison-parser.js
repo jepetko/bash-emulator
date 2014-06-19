@@ -279,8 +279,7 @@ function lastResult(yy) {
 }
 
 function trim(str) {
-    //return str.replace(/^\s+/g,'').replace(/\s$/g,'');
-    return str;
+    return str.replace(/^\s+/g,'').replace(/\s$/g,'');
 }
 
 function p(prefix, val) {
@@ -630,7 +629,7 @@ case 6:return 5;
 break;
 }
 },
-rules: [/^(?:\s+)/,/^(?:\|)/,/^(?:(cd|cat|echo|grep|su))/,/^(?:^-(-)?[a-z\-0-9]+)/,/^(?:([a-zA-Z0-9\._\-\\\/\[\]\+\(\)\*]+|(")?[a-zA-Z0-9\._\-\s]+(")?))/,/^(?:\n)/,/^(?:$)/],
+rules: [/^(?:\s+)/,/^(?:\|)/,/^(?:(ls|cd|cat|echo|grep|su))/,/^(?:^-(-)?[a-z\-0-9]+)/,/^(?:([a-zA-Z0-9\._\-\\\/\[\]\+\(\)\*]+|(")?[a-zA-Z0-9\._\-\s]+(")?))/,/^(?:\n)/,/^(?:$)/],
 conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6],"inclusive":true}}
 };
 return lexer;

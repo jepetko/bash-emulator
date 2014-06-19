@@ -56,13 +56,21 @@ var testData = {
                 args : ['/home/user']
             }
         ]
+    },
+    'ls -la' : {
+        result : [
+            {
+                cmd : 'ls',
+                options : ['-la']
+            }
+        ]
     }
 };
 
 describe('CmdParser', function() {
      describe('#parse()', function() {
          for(var inputString in testData) {
-             it('should parse bash input', (function(input) {
+             it('should parse bash input <' + inputString + '>', (function(input) {
                  return function() {
                      var cmdParser = new CmdParser();
 

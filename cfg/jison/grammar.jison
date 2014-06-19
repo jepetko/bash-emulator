@@ -2,14 +2,14 @@
 %lex
 
 %%
-\s+            /* skip whitespace */
-\|            return '|';
-/*[a-zA-Z\._]+        return 'COMMAND';*/
-(cat|echo|grep|su)        return 'COMMAND';
-^\-(\-)?[a-z\-0-9]+     return 'OPTION';
-(\")?[a-zA-Z\._0-9]+(\")?               return 'ARG';
-\n                      return 'BREAK';
-<<EOF>>            return 'EOF';
+\s+                                                                         /* skip whitespace */
+\|                                                                          return '|';
+/*[a-zA-Z\._]+                                                              return 'COMMAND';*/
+(cd|cat|echo|grep|su)                                                       return 'COMMAND';
+^\-(\-)?[a-z\-0-9]+                                                         return 'OPTION';
+([a-zA-Z0-9\._\-\\\/\[\]\+\(\)\*]+|(\")?[a-zA-Z0-9\._\-\s]+(\")?)           return 'ARG';
+\n                                                                          return 'BREAK';
+<<EOF>>                                                                     return 'EOF';
 
 /lex
 
@@ -22,11 +22,7 @@
 
 program
     : expression EOF
-        {
-            //clearYy(yy);
-            //console.log("..............");
-            //console.log(yy);
-            typeof console !== 'undefined' ? console.log($1) : print($1);
+        {   typeof console !== 'undefined' ? console.log($1) : print($1);
             return $1; };
 
 expression
@@ -48,7 +44,7 @@ option
 
 arg
     : ARG
-        {p("Argument",$1); $$ = $1; lastResult(yy).args.push($$); }
+        {p("Argument",$1); $$ = $1; lastResult(yy).args.push(trim($$)); }
     | arg arg
         {$$ = $1 + ' ... ' + $2;};
 %%
@@ -85,7 +81,11 @@ function lastResult(yy) {
     return yy.result[yy.result.length-1];
 }
 
+function trim(str) {
+    return str.replace(/^\s+/g,'').replace(/\s$/g,'');
+}
+
 function p(prefix, val) {
    var text = prefix + ": " + val;
-   typeof console !== 'undefined' ? console.log(text) : print(text);
+   if(typeof console !== 'undefined') console.log(text);
 }

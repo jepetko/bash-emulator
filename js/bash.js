@@ -3,15 +3,15 @@ var scope = jisonParser.yy;
 
 exports.CmdParser = (function(jisonParser, scope) {
     return function() {
+        this.scope = scope;
         this.parse = function(input) {
-            return jisonParser.parse(input);
+            var parseResult = jisonParser.parse(input);
+            return parseResult;
         };
-        this.getScope = function() {
-            return scope;
-        };
-
         this.consumeScopeResult = function() {
-            scope.result = [];
+            var scopeResult = scope.result.slice(0);
+            this.scope.result = [];
+            return scopeResult;
         };
     };
 })(jisonParser, scope);

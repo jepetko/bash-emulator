@@ -66,17 +66,25 @@ exports.File = _File = function(obj) {
         }
     };
 
-    this.ls = function() {
-        var ch = [].concat(this.children);
+    this.ls = function(options) {
+        var all = (options && options.indexOf('a') !== -1);
+
+        var ch = (all ? [{name: '.', type: 'd'}, {name: '..', type: 'd'}] : []).concat(this.children);
         ch.sort(function(a,b) {
-            if(a.name > b.name)
+            var _a = a.name, _b = b.name;
+            (_a.indexOf('.') === 0)
+            _a = _a.replace(/^\./, '');
+            (_b.indexOf('.') === 0)
+            _b = _b.replace(/^\./, '');
+            if(_a > _b)
                 return 1;
-            if(a.name < b.name)
+            if(_a < _b)
                 return -1;
             return 0;
         });
         var str = '';
         $.each(ch, function(idx,f) {
+            if(!all && f.name.indexOf('.') === 0) return;
             str += f.name + ((idx < ch.length-1) ? ' ' : '');
         });
         return str;

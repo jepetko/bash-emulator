@@ -49,13 +49,17 @@ describe('File', function () {
     });
 
     describe('#ls', function() {
-        it('lists files', function() {
-            var file = new File();
-            file.addFile([  {name: 'home', type: 'd'}, {name: 'etc', type:'d'}, {name: 'boot', type: 'd'},
-                {name: 'temp', type: 'd'}, {name: 'var', type: 'd'},
-                {name: 'bin', type:'d'}, {name: 'test.txt', type: '-'}, {name: 'my_file', type: '-'}]);
 
+        var file = new File();
+        file.addFile([  {name: 'home', type: 'd'}, {name: 'etc', type:'d'}, {name: 'boot', type: 'd'},
+            {name: 'temp', type: 'd'}, {name: 'var', type: 'd'}, {name: '.profile', type: '-'},
+            {name: 'bin', type:'d'}, {name: 'test.txt', type: '-'}, {name: 'my_file', type: '-'}]);
+
+        it('lists files with ls', function() {
             (file.ls()).should.equal('bin boot etc home my_file temp test.txt var');
+        });
+        it('lists files with ls -a', function() {
+            (file.ls('-a')).should.equal('. .. bin boot etc home my_file .profile temp test.txt var');
         });
     });
 });

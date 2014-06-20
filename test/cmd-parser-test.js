@@ -1,6 +1,5 @@
-var bash = require('../js/bash.js');
-var CmdParser = bash.CmdParser;
-var assert = require('assert');
+var parser = require('../js/cmd-parser.js');
+var CmdParser = parser.CmdParser;
 var should = require('should');
 
 var testData = {

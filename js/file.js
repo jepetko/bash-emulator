@@ -5,6 +5,8 @@ Formatter = formatter.Formatter;
 
 exports.File = _File = function(obj) {
 
+    _File.MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
     this.name = '';
     this.type = 'd';
     this.p = '775';
@@ -109,7 +111,7 @@ exports.File = _File = function(obj) {
                               f.owner,
                               (f.group || f.owner),
                               ((f.type === 'd') ? 4096 : f.size),
-                              f.lastModified.getFullYear() + ' ' + (f.lastModified.getMonth()+1) + ' ' + f.lastModified.getDay() );
+                             _File.MONTHS[f.lastModified.getMonth()] + ' ' + f.lastModified.getDay() + ' ' + f.lastModified.getFullYear() );
                 }
                 el.push(f.name);
                 arr.push(el);

@@ -51,9 +51,16 @@ describe('File', function () {
     describe('#ls', function() {
 
         var file = new File();
-        file.addFile([  {name: 'home', type: 'd'}, {name: 'etc', type:'d'}, {name: 'boot', type: 'd'},
-            {name: 'temp', type: 'd'}, {name: 'var', type: 'd'}, {name: '.profile', type: '-'},
-            {name: 'bin', type:'d'}, {name: 'test.txt', type: '-'}, {name: 'my_file', type: '-'}]);
+        var now = new Date();
+        file.addFile([  {name: 'home',      type: 'd', p: '775', owner: 'katarina', lastModified: new Date(2011,0,3)},
+                        {name: 'etc',       type: 'd', p: '775', owner: 'katarina', lastModified: now},
+                        {name: 'boot',      type: 'd', p: '775', owner: 'katarina', lastModified: now},
+                        {name: 'temp',      type: 'd', p: '775', owner: 'katarina', lastModified: now},
+                        {name: 'var',       type: 'd', p: '775', owner: 'katarina', lastModified: now},
+                        {name: '.profile',  type: '-', p: '644', owner: 'katarina', lastModified: now, size: 100},
+                        {name: 'bin',       type: 'd', p: '775', owner: 'katarina', lastModified: now},
+                        {name: 'test.txt',  type: '-', p: '664', owner: 'katarina', group: 'admins', lastModified: now, size: 25},
+                        {name: 'my_file',   type: '-', p: '777', owner: 'root',     lastModified: now, size: 11}]);
 
         it('lists files with ls', function() {
             (file.ls()).should.equal('bin boot etc home my_file temp test.txt var');
@@ -61,5 +68,24 @@ describe('File', function () {
         it('lists files with ls -a', function() {
             (file.ls('-a')).should.equal('. .. bin boot etc home my_file .profile temp test.txt var');
         });
+
+        var shouldLongList =    'drwxrwxr-x root     root     4096 Jan 01 2011 .\n'
+                                'drwxrwxr-x root     root     4096 ' + now + ' ..\n'
+                                'drwxrwxr-x katarina katarina  653 ' + now + ' bin\n'
+                                'drwxrwxr-x katarina katarina 4096 ' + now + ' boot\n'
+                                'drwxrwxr-x katarina katarina 4096 ' + now + ' etc\n'
+                                'drwxrwxr-x katarina katarina 4096 ' + now + ' home'
+                                '-rwxrwxrwx root     root       19 ' + now + ' my_file\n'
+                                '-rw-r--r-- katarina katarina 2821 ' + now + ' .profile\n'
+                                'drwxrwxr-x katarina katarina 4096 ' + now + ' temp\n'
+                                '-rw-r--r-- katarina admins   4096 ' + now + ' test.txt\n'
+                                'drwxrwxr-x katarina katarina  273 ' + now + ' var';
+
+        it('lists files with ls -la', function() {
+            (file.ls('-la')).should.equal(shouldLongList);
+        });
     });
 });
+
+
+

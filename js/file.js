@@ -19,7 +19,7 @@ exports.File = _File = function(obj) {
     $.extend(this, obj);
 
     this.isRoot = function() {
-        return (this.parent == null);
+        return (this.parent === null);
     };
 
     this.hasChildren = function() {
@@ -90,9 +90,9 @@ exports.File = _File = function(obj) {
                           new _File({name: '..', type: 'd'}) ] : []).concat(this.children);
         ch.sort(function(a,b) {
             var _a = a.name, _b = b.name;
-            (_a.indexOf('.') === 0)
+            if(_a.indexOf('.') === 0)
             _a = _a.replace(/^\./, '');
-            (_b.indexOf('.') === 0)
+            if(_b.indexOf('.') === 0)
             _b = _b.replace(/^\./, '');
             if(_a > _b)
                 return 1;
@@ -128,18 +128,18 @@ exports.File = _File = function(obj) {
     };
 
     this.mkdir = function(obj) {
-        obj['type'] = 'd';
+        obj.type = 'd';
         this.addFile(new _File(obj));
         return this;
     };
 
     this.touch = function() {
-        obj['type'] = '-';
+        obj.type = '-';
         this.addFile(new _File(obj));
         return this;
     };
 
     this.rm = function(name) {
 
-    }
+    };
 };

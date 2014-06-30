@@ -1,18 +1,22 @@
 exports.Formatter = function() {
 
     this.formatAsTable = function(arr, lineSep) {
-        var maxLengths = [];
-        for(var i=0; i<arr.length; i++) {
-            var sub = arr[i];
-            if( typeof sub.length === 'undefined') continue;
-            for(var j=0;j<sub.length; j++) {
-                var l = (sub[j] || '').length;
 
-                if(maxLengths.length <= j || maxLengths[j] < l) {
-                    maxLengths[j] = l;
+        var maxLengths = (function(arr) {
+            var maxLengths = [];
+            for(var i=0; i<arr.length; i++) {
+                var sub = arr[i];
+                if( typeof sub.length === 'undefined') continue;
+                for(var j=0;j<sub.length; j++) {
+                    var l = (sub[j] || '').length;
+
+                    if(maxLengths.length <= j || maxLengths[j] < l) {
+                        maxLengths[j] = l;
+                    }
                 }
             }
-        }
+            return maxLengths;
+        })(arr);
 
         var str = '';
         for(var i=0; i<arr.length; i++) {

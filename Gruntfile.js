@@ -1,6 +1,6 @@
-'use strict';
-
 module.exports = function (grunt) {
+
+    'use strict';
 
     // Project configuration.
     grunt.initConfig({
@@ -50,9 +50,11 @@ module.exports = function (grunt) {
                 },
                 src: 'Gruntfile.js'
             },
-            src: {
-                src: ['js/dummy.js']
-            }
+            all: [
+                'Gruntfile.js',
+                'js/**/*.js',
+                '!js/jison-parser.js'
+            ]
         },
         watch: {
             gruntfile: {

@@ -69,17 +69,18 @@ describe('File', function () {
             (file.ls('-a')).should.equal('. .. bin boot etc home my_file .profile temp test.txt var');
         });
 
-        var shouldLongList =    'drwxrwxr-x root     root     4096 ' + now + ' .\n'
-                                'drwxrwxr-x root     root     4096 ' + now + ' ..\n'
-                                'drwxrwxr-x katarina katarina  653 ' + now + ' bin\n'
-                                'drwxrwxr-x katarina katarina 4096 ' + now + ' boot\n'
-                                'drwxrwxr-x katarina katarina 4096 ' + now + ' etc\n'
+        var nowStr = now.getMonth() + ' ' + now.getDay() + ' ' + now.getYear();
+        var shouldLongList =    'drwxrwxr-x root     root     4096 ' + nowStr + ' .\n'
+                                'drwxrwxr-x root     root     4096 ' + nowStr + ' ..\n'
+                                'drwxrwxr-x katarina katarina  653 ' + nowStr + ' bin\n'
+                                'drwxrwxr-x katarina katarina 4096 ' + nowStr + ' boot\n'
+                                'drwxrwxr-x katarina katarina 4096 ' + nowStr + ' etc\n'
                                 'drwxrwxr-x katarina katarina 4096 Jan 03 2011 home'
-                                '-rwxrwxrwx root     root       19 ' + now + ' my_file\n'
-                                '-rw-r--r-- katarina katarina 2821 ' + now + ' .profile\n'
-                                'drwxrwxr-x katarina katarina 4096 ' + now + ' temp\n'
-                                '-rw-r--r-- katarina admins   4096 ' + now + ' test.txt\n'
-                                'drwxrwxr-x katarina katarina  273 ' + now + ' var';
+                                '-rwxrwxrwx root     root       19 ' + nowStr + ' my_file\n'
+                                '-rw-r--r-- katarina katarina 2821 ' + nowStr + ' .profile\n'
+                                'drwxrwxr-x katarina katarina 4096 ' + nowStr + ' temp\n'
+                                '-rw-r--r-- katarina admins   4096 ' + nowStr + ' test.txt\n'
+                                'drwxrwxr-x katarina katarina  273 ' + nowStr + ' var';
 
         it('lists files with ls -la', function() {
             (file.ls('-la')).should.equal(shouldLongList);

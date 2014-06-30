@@ -8,7 +8,7 @@ exports.Formatter = function() {
                 var sub = arr[i];
                 if( typeof sub.length === 'undefined') continue;
                 for(var j=0;j<sub.length; j++) {
-                    var l = (sub[j] || '').length;
+                    var l = (''+sub[j] || '').length;
 
                     if(maxLengths.length <= j || maxLengths[j] < l) {
                         maxLengths[j] = l;
@@ -25,18 +25,24 @@ exports.Formatter = function() {
             if(i > 0) str += lineSep;
             for(var j=0;j<sub.length; j++) {
                 if(j > 0) str += ' ';
-                str += this.pad(sub[j], maxLengths[j], 'r');
+                if(j==sub.length-1) {
+                    str += sub[j];
+                } else {
+                    str += this.pad(sub[j], maxLengths[j], 'r');
+                }
             }
         }
         return str;
     };
 
-    this.pad = function(str, size, direction) {
+    this.pad = function(str, size, direction, ch) {
+        if(!ch) ch = ' ';
+        str = '' + str;
         var padded = str;
         if(size > str.length) {
             while(padded.length < size) {
-                if(direction == 'l') padded = ' ' + padded;
-                if(direction == 'r') padded = padded + ' ';
+                if(direction == 'l') padded = ch + padded;
+                if(direction == 'r') padded = padded + ch;
             }
         }
         return padded;

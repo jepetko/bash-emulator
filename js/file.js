@@ -15,6 +15,7 @@ exports.File = _File = function(obj) {
     this.children = [];
     this.owner = 'root';
     this.group = 'root';
+    this.size = 0;
 
     $.extend(this, obj);
 
@@ -102,6 +103,7 @@ exports.File = _File = function(obj) {
         });
         var arr = [];
         $.each(ch, (function(self, arr) {
+            var formatter = new Formatter();
             return function(idx,f) {
                 if (!all && f.name.indexOf('.') === 0) return;
 
@@ -111,7 +113,7 @@ exports.File = _File = function(obj) {
                               f.owner,
                               (f.group || f.owner),
                               ((f.type === 'd') ? 4096 : f.size),
-                             _File.MONTHS[f.lastModified.getMonth()] + ' ' + f.lastModified.getDay() + ' ' + f.lastModified.getFullYear() );
+                             _File.MONTHS[f.lastModified.getMonth()] + ' ' + formatter.pad(''+f.lastModified.getDate(),2,'l','0') + ' ' + f.lastModified.getFullYear() );
                 }
                 el.push(f.name);
                 arr.push(el);

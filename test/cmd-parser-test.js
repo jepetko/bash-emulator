@@ -73,7 +73,7 @@ describe('CmdParser', function() {
                  return function() {
                      var cmdParser = new CmdParser();
 
-                     var shouldResult = testData[input]['result'];
+                     var shouldResult = testData[input].result;
                      console.log('input: ' + input);
                      var totalResult = cmdParser.parse(input);
                      console.log('totalResult: ' + totalResult);

@@ -60,7 +60,7 @@ describe('File', function () {
                         {name: '.profile',  type: '-', p: '644', owner: 'katarina', group: 'katarina', lastModified: now, size: 100},
                         {name: 'bin',       type: 'd', p: '775', owner: 'katarina', group: 'katarina', lastModified: now},
                         {name: 'test.txt',  type: '-', p: '664', owner: 'katarina', group: 'admins', lastModified: now, size: 25},
-                        {name: 'my_file',   type: '-', p: '777', owner: 'root',     lastModified: now, size: 11}]);
+                        {name: 'my_file',   type: '-', p: '777', owner: 'root',     lastModified: now, size: 19}]);
 
         it('lists files with ls', function() {
             (file.ls()).should.equal('bin boot etc home my_file temp test.txt var');
@@ -69,18 +69,23 @@ describe('File', function () {
             (file.ls('-a')).should.equal('. .. bin boot etc home my_file .profile temp test.txt var');
         });
 
-        var nowStr = now.getMonth() + ' ' + now.getDay() + ' ' + now.getYear();
-        var shouldLongList =    'drwxrwxr-x root     root     4096 ' + nowStr + ' .\n'
-                                'drwxrwxr-x root     root     4096 ' + nowStr + ' ..\n'
-                                'drwxrwxr-x katarina katarina  653 ' + nowStr + ' bin\n'
-                                'drwxrwxr-x katarina katarina 4096 ' + nowStr + ' boot\n'
-                                'drwxrwxr-x katarina katarina 4096 ' + nowStr + ' etc\n'
-                                'drwxrwxr-x katarina katarina 4096 Jan 03 2011 home'
-                                '-rwxrwxrwx root     root       19 ' + nowStr + ' my_file\n'
-                                '-rw-r--r-- katarina katarina 2821 ' + nowStr + ' .profile\n'
-                                'drwxrwxr-x katarina katarina 4096 ' + nowStr + ' temp\n'
-                                '-rw-r--r-- katarina admins   4096 ' + nowStr + ' test.txt\n'
-                                'drwxrwxr-x katarina katarina  273 ' + nowStr + ' var';
+        var monthName = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][now.getMonth()];
+        var dayStr = now.getDate();
+        if(dayStr.length === 1) dayStr = '0' + dayStr;
+        var nowStr = monthName + ' ' + dayStr + ' ' + now.getFullYear();
+        var defaultDateStr = 'Jan 01 1979';
+
+        var shouldLongList =    'drwxrwxr-x root     root     4096 ' + defaultDateStr + ' .\n' +
+                                'drwxrwxr-x root     root     4096 ' + defaultDateStr + ' ..\n' +
+                                'drwxrwxr-x katarina katarina 4096 ' + nowStr + ' bin\n' +
+                                'drwxrwxr-x katarina katarina 4096 ' + nowStr + ' boot\n' +
+                                'drwxrwxr-x katarina katarina 4096 ' + nowStr + ' etc\n' +
+                                'drwxrwxr-x katarina katarina 4096 Jan 03 2011 home\n' +
+                                '-rwxrwxrwx root     root     19   ' + nowStr + ' my_file\n' +
+                                '-rw-r--r-- katarina katarina 100  ' + nowStr + ' .profile\n' +
+                                'drwxrwxr-x katarina katarina 4096 ' + nowStr + ' temp\n' +
+                                '-rw-rw-r-- katarina admins   25   ' + nowStr + ' test.txt\n' +
+                                'drwxrwxr-x katarina katarina 4096 ' + nowStr + ' var';
 
         it('lists files with ls -la', function() {
             (file.ls('-la')).should.equal(shouldLongList);

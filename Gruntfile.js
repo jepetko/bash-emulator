@@ -53,7 +53,8 @@ module.exports = function (grunt) {
             all: [
                 'Gruntfile.js',
                 'js/**/*.js',
-                '!js/jison-parser.js'
+                '!js/jison-parser.js',
+                //'test/**/*.js'
             ]
         },
         watch: {

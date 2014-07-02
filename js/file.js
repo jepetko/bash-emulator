@@ -16,6 +16,7 @@ exports.File = _File = function(obj) {
     this.owner = 'root';
     this.group = 'root';
     this.size = 0;
+    this.target = null;
 
     $.extend(this, obj);
 
@@ -35,7 +36,7 @@ exports.File = _File = function(obj) {
         return this.type == '-';
     };
 
-    this.isLink = function() {
+    this.isSymLink = function() {
         return this.type == 'l';
     };
 
@@ -55,6 +56,9 @@ exports.File = _File = function(obj) {
     };
 
     this.getPermissionsStr = function() {
+        if(this.isSymLink()) {
+            return 'rwxrwxrwx';
+        }
         var str = '';
         for(var i=0;i<3;i++) {
             str += this.isReadable(i) ? 'r' : '-';
@@ -124,7 +128,7 @@ exports.File = _File = function(obj) {
                               ((f.type === 'd') ? 4096 : f.size),
                              _File.MONTHS[f.lastModified.getMonth()] + ' ' + formatter.pad(''+f.lastModified.getDate(),2,'l','0') + ' ' + f.lastModified.getFullYear() );
                 }
-                el.push(f.name);
+                el.push((f.type === 'l' && long) ? (f.name + ' -> ' + f.target) : f.name);
                 arr.push(el);
             };
         })(this, arr));

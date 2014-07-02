@@ -83,6 +83,15 @@ exports.File = _File = function(obj) {
         }
     };
 
+    this.getChild = function(name) {
+        for(var i=0;i<this.children.length; i++) {
+            if(this.children[i].name === name) {
+                return this.children[i];
+            }
+        }
+        return null;
+    };
+
     this.ls = function(options) {
         var all = (options && options.indexOf('a') !== -1);
         var long = (options && options.indexOf('l') !== -1);
@@ -135,9 +144,13 @@ exports.File = _File = function(obj) {
         return this;
     };
 
-    this.touch = function() {
-        obj.type = '-';
-        this.addFile(new _File(obj));
+    this.touch = function(name) {
+        var ch = this.getChild(name);
+        if(ch === null) {
+            this.addFile(new _File({name : name}));
+        } else {
+            ch.lastModified = new Date();
+        }
         return this;
     };
 

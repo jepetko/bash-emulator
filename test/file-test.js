@@ -71,7 +71,7 @@ describe('File', function () {
 
         var monthName = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][now.getMonth()];
         var dayStr = now.getDate();
-        if(dayStr.length === 1) dayStr = '0' + dayStr;
+        if(dayStr < 10) dayStr = '0' + dayStr;
         var nowStr = monthName + ' ' + dayStr + ' ' + now.getFullYear();
         var defaultDateStr = 'Jan 01 1979';
 
@@ -89,6 +89,35 @@ describe('File', function () {
 
         it('lists files with ls -la', function() {
             (file.ls('-la')).should.equal(shouldLongList);
+        });
+    });
+
+    describe('#mkdir', function() {
+        var file = new File();
+        it('makes a new directory', function() {
+            file.mkdir( {name : 'subdir', type : 'd'} );
+            (file.hasChildren()).should.be.true;
+            var child = file.children[0];
+            (child.name).should.equal('subdir');
+            (child.type).should.equal('d');
+            (child.p).should.equal('775');  //todo: consider umask!
+        });
+    });
+
+    describe('#touch', function() {
+        describe('#touch existing directory', function() {
+            var file = new File({type : 'd'});
+            file.addFile({name : 'subdir', type : 'd', created: new Date(), lastModified: new Date()});
+            var lastModified = file.children[0].lastModified;
+
+
+            it('should touch the existing directory', function(done) {
+                setTimeout(function() {
+                    file.touch('subdir');
+                    (file.children[0].lastModified - lastModified).should.be.approximately(500,20);
+                    done();
+                }, 500);
+            });
         });
     });
 });
